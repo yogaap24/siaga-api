@@ -30,15 +30,11 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.use(bodyParser.json());
+
 app.use(express.json());
+
 app.use("/api", router);
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-//   );
-// });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
