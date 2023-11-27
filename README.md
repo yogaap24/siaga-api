@@ -1,4 +1,4 @@
-# siaga
+# SIAGA - BANGKIT
 
 To install dependencies:
 
