@@ -3,7 +3,8 @@
   "module": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/index.js"
+    "dev": "bun run --watch src/index.js",
+    "db": "bunx prisma migrate reset --force && bunx prisma migrate dev"
   },
   "devDependencies": {
     "bun-types": "latest"
@@ -12,7 +13,11 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@prisma/client": "^5.6.0",
+    "body-parser": "^1.20.2",
     "express": "^4.18.2",
-    "jwt": "^0.2.0"
+    "jwt": "^0.2.0",
+    "pg": "^8.11.3",
+    "prisma": "^5.6.0"
   }
 }

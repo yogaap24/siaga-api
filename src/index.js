@@ -1,18 +1,44 @@
 import express from "express";
+import { Pool } from "pg";
+import router from "./routes/routes";
+import bodyParser from "body-parser";
 
 const app = express();
 const PORT = 8082;
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: "siaga-db",
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 5432,
+  connectionString: process.env.DB_URL,
 });
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-  );
+app.get("/", async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query("SELECT $1::text as message", [
+      "Hello world!",
+    ]);
+    const message = result.rows[0].message;
+    res.send(message);
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error: " + err);
+  }
 });
+
+app.use(express.json());
+app.use("/api", router);
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+//   );
+// });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
