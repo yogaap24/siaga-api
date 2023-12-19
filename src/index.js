@@ -4,7 +4,7 @@ import router from "./routes/routes";
 import bodyParser from "body-parser";
 
 const app = express();
-const PORT = 80;
+const PORT = 8082;
 
 const pool = new Pool({
   user: process.env.DB_USER,
