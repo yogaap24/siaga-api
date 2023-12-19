@@ -2,6 +2,7 @@ import express from "express";
 import { Pool } from "pg";
 import router from "./routes/routes";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
 const PORT = 8082;
@@ -29,7 +30,7 @@ app.get("/", async (req, res) => {
     res.send("Error: " + err);
   }
 });
-
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.json());
