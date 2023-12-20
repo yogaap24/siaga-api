@@ -67,7 +67,10 @@ const loginUser = async (req, res, next) => {
     });
 
     if (!findUser) {
-      return res.status(404).json({ message: "Akun tidak ada" });
+      return res.status(404).json({
+        message: "Akun tidak ada",
+        data: null,
+      });
     }
 
     //compare password input with hash

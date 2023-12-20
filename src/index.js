@@ -30,7 +30,7 @@ app.get("/", async (req, res) => {
     res.send("Error: " + err);
   }
 });
-
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

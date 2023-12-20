@@ -31,7 +31,7 @@ router.post("/users", middleware, usersController.createUser);
 router.put("/users/:id", middleware, usersController.updateUser);
 router.delete("/users/:id", middleware, usersController.deleteUser);
 
-router.post("/uploads", middleware, storageController.uploadFile);
-router.get("/uploads/:filename", middleware, storageController.getFile);
+router.post("/uploads", storageController.uploadFile);
+router.get("/uploads/:filename", storageController.getFile);
 
 module.exports = router;
