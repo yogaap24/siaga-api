@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
     "lib": ["ESNext"],
-    "module": "esnext",
+    "module": "commonjs", // Change this line
     "target": "esnext",
-    "moduleResolution": "bundler",
-    "moduleDetection": "force",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "composite": true,
@@ -15,8 +14,13 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
+    "esModuleInterop": true,
     "types": [
-      "bun-types" // add Bun global
+      "bun-types"
     ]
-  }
+  },
+  "include": [
+    "./src/**/*",
+    "./src/**/**/*"
+  ]
 }

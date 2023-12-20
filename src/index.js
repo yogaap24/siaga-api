@@ -1,10 +1,11 @@
-import express from "express";
-import { Pool } from "pg";
-import router from "./routes/routes";
-import bodyParser from "body-parser";
+const express = require("express");
+const bodyParser = require("body-parser");
+const pg = require("pg");
+const router = require("./routes/routes.js");
 
+const { Pool } = pg;
 const app = express();
-const PORT = 8082;
+const PORT = 3000;
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -19,7 +20,7 @@ app.get("/", async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query("SELECT $1::text as message", [
-      "Hello world!",
+      "Ini siaga-api",
     ]);
     const message = result.rows[0].message;
     res.send(message);
@@ -31,8 +32,10 @@ app.get("/", async (req, res) => {
 });
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 

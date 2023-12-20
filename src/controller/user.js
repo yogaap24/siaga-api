@@ -1,6 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-import { getToken } from "../config/jwt.config";
-import { jwtVerify } from "jose";
+const { PrismaClient } = require("@prisma/client");
+const { getToken } = require("../config/jwt.config.js");
+const { jwtVerify } = require("jose");
+
 const prisma = new PrismaClient();
 
 const HashPassword = async (password) => {
@@ -11,7 +12,7 @@ const HashPassword = async (password) => {
   return hash;
 };
 
-export const createUser = async (req, res, next) => {
+const createUser = async (req, res, next) => {
   const { username, fullname, email, password } = req.body;
 
   try {
@@ -55,7 +56,7 @@ export const createUser = async (req, res, next) => {
   }
 };
 
-export const loginUser = async (req, res, next) => {
+const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -97,4 +98,9 @@ export const loginUser = async (req, res, next) => {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
+};
+
+module.exports = {
+  createUser,
+  loginUser,
 };

@@ -1,9 +1,11 @@
-import { SignJWT } from "jose";
+const { SignJWT } = require("jose");
 
-export const getToken = async (payload, expiry) => {
+const getToken = async (payload, expiry) => {
   const signJWT = new SignJWT(payload).setProtectedHeader({
     alg: "HS256",
   });
+
+  console.log(signJWT);
 
   if (expiry) {
     signJWT.setExpirationTime(expiry);
@@ -12,4 +14,8 @@ export const getToken = async (payload, expiry) => {
   return await signJWT.sign(
     new TextEncoder().encode(process.env.JWT_TOKEN_SECRET)
   );
+};
+
+module.exports = {
+  getToken,
 };

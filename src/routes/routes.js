@@ -1,12 +1,15 @@
-import express from "express";
-import { createUser, loginUser } from "../controller/user.js";
-import { middleware } from "../middleware/verify.js";
+const express = require("express");
+const middleware = require("../middleware/verify.js");
+const { createUser, loginUser } = require("../controller/user.js");
+const authController = require("../api/auths/authController.js");
+const usersController = require("../api/users/usersController.js");
+const storageController = require("../api/storages/storageController.js");
 
 const router = express.Router();
 
-router.post("/register", createUser);
-router.post("/login", loginUser);
-router.get("/auth/login", middleware, (req, res) => {
+router.post("/registerOld", createUser);
+router.post("/loginOld", loginUser);
+router.get("/auth/loginOld", middleware, (req, res) => {
   res.status(200).json({
     message: "Token valid",
     data: {
@@ -17,4 +20,18 @@ router.get("/auth/login", middleware, (req, res) => {
   });
 });
 
-export default router;
+router.post("/login", authController.login);
+router.post("/register", authController.register);
+router.post("/logout", middleware, authController.logout);
+router.get("/profile", middleware, authController.profile);
+
+router.get("/users", middleware, usersController.getUsers);
+router.get("/users/:id", middleware, usersController.getUser);
+router.post("/users", middleware, usersController.createUser);
+router.put("/users/:id", middleware, usersController.updateUser);
+router.delete("/users/:id", middleware, usersController.deleteUser);
+
+router.post("/uploads", middleware, storageController.uploadFile);
+router.get("/uploads/:filename", middleware, storageController.getFile);
+
+module.exports = router;

@@ -1,12 +1,15 @@
-import { jwtVerify } from "jose";
+const { jwtVerify } = require("jose");
+const ResponseServices = require("../api/responseServices.js");
 
-export const middleware = async (req, res, next) => {
+const middleware = async (req, res, next) => {
   const headers = req.headers["authorization"];
   const token = headers && headers.split(" ")[1];
   if (!token) {
-    return res.status(401).json({
-      message: "Token not found",
-    });
+    const responseServices = req
+      ? new ResponseServices(null, null, req, next)
+      : new ResponseServices(null);
+    const response = responseServices.unauthorizedResponse("Unauthorized", null);
+    return res.status(response.code).json(response);
   }
 
   try {
@@ -18,7 +21,15 @@ export const middleware = async (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    console.error("Error decoding token:", error);
-    return res.status(401).json({ message: "Invalid token" });
+    const responseServices = req
+      ? new ResponseServices(error, null, req, next)
+      : new ResponseServices(error);
+    const response = responseServices.unauthorizedResponse(
+      "Unauthorized",
+      null
+    );
+    res.status(response.code).json(response);
   }
 };
+
+module.exports = middleware;

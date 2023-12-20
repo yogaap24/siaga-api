@@ -1,23 +1,31 @@
 {
   "name": "siaga",
   "module": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "dev": "bun run --watch src/index.js",
-    "db": "bunx prisma migrate reset --force && bunx prisma migrate dev"
+    "bun-dev": "bun run --watch src/index.js",
+    "npm-dev": "nodemon ./src/index.js",
+    "bun-db": "bunx prisma migrate reset --force && bunx prisma migrate dev",
+    "npm-db": "npx prisma migrate reset --force && npx prisma migrate dev"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "^1.0.18",
+    "nodemon": "^3.0.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.6.0",
+    "@prisma/client": "^5.7.0",
+    "aws-sdk": "^2.1522.0",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "busboy": "^1.6.0",
     "express": "^4.18.2",
+    "formidable": "^3.5.1",
     "jose": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "pg": "^8.11.3",
     "prisma": "^5.6.0"
   }
